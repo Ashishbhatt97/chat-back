@@ -88,7 +88,7 @@ backend-assessment/
 │-- README.md             # Documentation
 ```
 
-## 📢 Contributions
+<!-- ## 📢 Contributions
 Feel free to fork this repository and submit pull requests. Make sure to follow coding standards and include tests for new features.
 
 ## 📞 Contact
@@ -96,4 +96,4 @@ For any queries, reach out at:
 ✉️ **your.email@example.com**  
 🔗 **[LinkedIn](your-linkedin-profile)**  
 🔗 **[GitHub](https://github.com/yourusername)**
-
+ -->
