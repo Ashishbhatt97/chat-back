@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(uuid())
+  username  String      @unique
+  email     String      @unique
+  password  String
+  groups    GroupUser[]
+  messages  Message[]
+  createdAt DateTime    @default(now())
+}
+
+model Group {
+  id         String      @id @default(uuid())
+  name       String      @unique
+  privacy    PrivacyType
+  inviteLink String      @unique
+  users      GroupUser[]
+  messages   Message[]
+  createdAt  DateTime    @default(now())
+}
+
+model GroupUser {
+  id      String @id @default(uuid())
+  userId  String
+  groupId String
+  role    Role
+  user    User   @relation(fields: [userId], references: [id])
+  group   Group  @relation(fields: [groupId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  senderId  String
+  groupId   String
+  content   String
+  createdAt DateTime @default(now())
+  sender    User     @relation(fields: [senderId], references: [id])
+  group     Group    @relation(fields: [groupId], references: [id])
+}
+
+enum PrivacyType {
+  PUBLIC
+  PRIVATE
+}
+
+enum Role {
+  MEMBER
+  ADMIN
+}
