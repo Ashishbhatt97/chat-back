@@ -1,4 +1,6 @@
 import prisma from ".././common/services/database.service";
+import bcrypt from "bcrypt";
+
 /**
  * Retrieves all users from the database.
  *
@@ -65,9 +67,16 @@ export const createUser = async (data: any) => {
     throw new Error("User already exists");
   }
 
+  const salt = await bcrypt.genSalt(10);
+  data.password = await bcrypt.hash(data.password, salt);
+
+  console.log(data);
+
   const result = await prisma.user.create({
     data,
   });
+
+  console.log(result);
   return result;
 };
 
@@ -118,4 +127,25 @@ export const deleteUser = async (id: string) => {
     },
   });
   return result;
+};
+
+export const getUserByEmail = async (email: string) => {
+  const result = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  return result;
+};
+
+export const login = async (data: any) => {
+  const user = await getUserByEmail(data.email);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  if (user.password !== data.password) {
+    throw new Error("Invalid password");
+  }
 };

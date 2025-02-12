@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import prisma from "../services/database.service";
 
-export const authenticateUser = passport.authenticate("jwt", {
-  session: false,
-});
+// export const authenticateUser = passport.authenticate("jwt", {
+//   session: false,
+// });
 
 /**
  * Checks if a user is an admin of a given group.
@@ -44,8 +44,15 @@ export const authenticateJWT = (
       id: string;
     };
   }
+  console.log(req.headers.authorization);
+
+  if (!req.headers.authorization) {
+    return res.status(401).json({ message: "Unauthorized access" });
+  }
 
   passport.authenticate("jwt", { session: false }, (err: any, user: any) => {
+    console.log(user);
+
     if (err || !user) {
       return res.status(401).json({ message: "Unauthorized access" });
     }

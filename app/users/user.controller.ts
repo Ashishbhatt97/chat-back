@@ -59,3 +59,14 @@ export const deleteUser = asyncHandler(
     }
   }
 );
+
+export const login = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await userService.login(req.body);
+      res.json(createResponse(user, "User logged in successfully"));
+    } catch (error) {
+      next(error);
+    }
+  }
+);

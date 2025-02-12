@@ -9,7 +9,7 @@ import routes from "./app/routes";
 import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "./app/common/helper/swagger-output.json";
 import { type IUser } from "./app/users/user.dto";
-
+import { initPassport } from "./app/config/passport";
 declare global {
   namespace Express {
     interface User extends Omit<IUser, "password"> {}
@@ -28,6 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
+
+initPassport();
 
 // Passport Middleware
 app.use(passport.initialize());

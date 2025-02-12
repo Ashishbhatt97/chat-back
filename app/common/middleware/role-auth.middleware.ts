@@ -5,6 +5,10 @@ import createHttpError from "http-errors";
 import process from "process";
 import { type IUser } from "../dto/base.dto";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 export const roleAuth = (roles: IUser["role"], publicRoutes: string[] = []) =>
   expressAsyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
